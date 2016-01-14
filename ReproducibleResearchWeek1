@@ -1,0 +1,41 @@
+Course Project 1
+Reproducible Research
+Ferran Romero
+Code for reading in the dataset and/or processing the data.
+
+activity <- read.csv("C:/Users/Ferri/Desktop/activity.csv")
+Histogram of the total number of steps taken each day
+
+tx = aggregate(activity$steps, list(activity$date), sum)
+colnames(tx) <- c("date","steps")
+hist(tx$steps,xlab = "steps per day",main = "Frequency of steps taken per day")
+
+
+Mean and median number of steps taken each day
+
+tx2 = aggregate(activity$steps, list(activity$date), mean)
+colnames(tx2) <- c("date","steps_mean")
+tx3 = aggregate(activity$steps, list(activity$date), median)
+colnames(tx3) <- c("date","steps_median")
+Time series plot of the average number of steps taken
+
+plot(tx2$date,tx2$steps_mean)
+
+
+The 5-minute interval that, on average, contains the maximum number of steps
+
+tx4<-na.omit(activity)
+tx5<-aggregate(tx4$steps,list(tx4$interval),mean) 
+colnames(tx5) <- c("interval","steps_average") 
+max(tx5$steps_average, na.rm = TRUE)
+## [1] 206.1698
+max_interval <- tx5[which.max(           tx5$steps_average),]
+Code to describe and show a strategy for imputing missing data
+
+NA_omited<-na.omit(activity)
+Histogram of the total number of steps taken each day after missing values are imputed
+
+NA_omited<-na.omit(activity)
+tx <- aggregate(NA_omited$steps, list(NA_omited$date), sum)
+colnames(tx) <- c("date","steps")
+hist(tx$steps,xlab = "steps per day",main = "Frequency of steps taken per day")
